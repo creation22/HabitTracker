@@ -1,6 +1,8 @@
-import React from 'react'
+import { useState } from "react"
+import React  from 'react'
 
 function Streak() {
+
   return (
     <div>
       
@@ -9,3 +11,5 @@ function Streak() {
 }
 
 export default Streak
+
+
