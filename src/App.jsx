@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { HabbitProvider } from './context/HabbitContext'
+import { Analytics } from "@vercel/analytics/react"
 import { 
   createBrowserRouter,
   createRoutesFromElements,
@@ -12,7 +13,6 @@ import Home from './pages/Home'
 import Streak from './pages/Streak'
 
 function App() {
-  // Initialize habits state
   const [habits, setHabits] = useState(() => {
     const savedHabits = localStorage.getItem('habits');
     return savedHabits ? JSON.parse(savedHabits) : [
@@ -123,6 +123,7 @@ function App() {
   return (
     <HabbitProvider value={{ habits, addHabit, deleteHabit, editHabit, editStreak }}>
       <RouterProvider router={router} />
+      <Analytics/>
     </HabbitProvider>
   );
 }
