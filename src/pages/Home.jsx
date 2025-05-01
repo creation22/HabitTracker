@@ -4,12 +4,11 @@ function Home() {
   const [habits, setHabits] = useState([]);
   const [habitInput, setHabitInput] = useState('');
 
-
   const addHabit = (newHabit) => {
-    setHabits((prevHabits) => [{ id: Date.now(), ...newHabit }, ...prevHabits]);
-
+    setHabits((prevHabits) => [{ id: Date.now(), completed: false, ...newHabit }, ...prevHabits]);
     setHabitInput('');
-  }
+  };
+
   const deleteHabit = (id) => {
     setHabits((prevHabits) => prevHabits.filter((habit) => habit.id !== id));
   };
@@ -22,12 +21,21 @@ function Home() {
     );
   };
 
+  const toggleCompletion = (id) => {
+    setHabits((prevHabits) =>
+      prevHabits.map((habit) =>
+        habit.id === id ? { ...habit, completed: !habit.completed } : habit
+      )
+    );
+  };
+
   useEffect(() => {
     const storedHabits = JSON.parse(localStorage.getItem('habits'));
     if (storedHabits) {
       setHabits(storedHabits);
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem('habits', JSON.stringify(habits));
   }, [habits]);
@@ -40,7 +48,6 @@ function Home() {
           Welcome to the Habit Tracker app! Here you can track your habits and stay motivated.
         </p>
 
-        
         <div className="flex items-center gap-3 mb-6">
           <input
             type="text"
@@ -61,32 +68,33 @@ function Home() {
           </button>
         </div>
 
-        
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
             <thead>
               <tr className="bg-gray-100 text-gray-600 text-left">
                 <th className="p-3 border">Habit</th>
-                <th className="p-3 border text-center">Action</th>
-                <th className="p-3 border">Setting</th>
+                <th className="p-3 border text-center">Completed</th>
+                <th className="p-3 border">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {habits.map((item, idx) => (
+              {habits.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="p-3 border">{item.habit}</td>
                   <td className="p-3 border text-center">
                     <input
                       type="checkbox"
                       className="form-checkbox text-blue-500 h-5 w-5"
+                      checked={item.completed}
+                      onChange={() => toggleCompletion(item.id)}
                     />
                   </td>
                   <td className="p-3 border flex items-center gap-3">
                     <button
                       className="bg-purple-600 hover:bg-purple-800 text-white px-3 py-1 rounded text-sm"
                       onClick={() => {
-                        const newHabit = prompt("Edit habit:", item.habit);
-                        if (newHabit !== null && newHabit.trim() !== "") {
+                        const newHabit = prompt('Edit habit:', item.habit);
+                        if (newHabit !== null && newHabit.trim() !== '') {
                           editHabit(item.id, { habit: newHabit.trim() });
                         }
                       }}
@@ -94,7 +102,7 @@ function Home() {
                       Edit
                     </button>
                     <button
-                      className="bg-green-600 hover:bg-green-800 text-white px-3 py-1 rounded text-sm"
+                      className="bg-red-600 hover:bg-red-800 text-white px-3 py-1 rounded text-sm"
                       onClick={() => deleteHabit(item.id)}
                     >
                       Delete

@@ -3,13 +3,13 @@ import  {createContext , useContext} from "react"
 export const HabbitContext = createContext({
     habits : [
         {
-            id : 1 , 
-            habbit : "habbit message",
-            completed : false,
-            streak : 0,
-            createdAt : new Date().toLocaleDateString(),
-            updatedAt : new Date().toLocaleDateString(),
-        }   
+            id: 1,
+            habit: "Read Book",
+            createdAt: "2025-05-01",
+            streakDates: [],
+            streak: 0,
+            longestStreak: 0,
+          }
         
     ],
     addHabbit : () => {} ,
