@@ -1,7 +1,7 @@
-import  {createContext , useContext} from "react"
+import { createContext, useContext } from "react"
 
 export const HabbitContext = createContext({
-    habits : [
+    habits: [
         {
             id: 1,
             habit: "Read Book",
@@ -9,16 +9,17 @@ export const HabbitContext = createContext({
             streakDates: [],
             streak: 0,
             longestStreak: 0,
-          }
-        
+            completed: false
+        }
     ],
-    addHabbit : () => {} ,
-    deleteHabbit : () => {} ,
-    editHabbit : () => {} ,
-    editStreak : () => {} 
+    addHabit: () => {},
+    deleteHabit: () => {},
+    editHabit: () => {},
+    editStreak: () => {}
 })
 
 export const useHabbit = () => {
     return useContext(HabbitContext)
 }
+
 export const HabbitProvider = HabbitContext.Provider
